@@ -8,6 +8,45 @@ from random import randrange
 # # Set up a serial connection
 # ser = serial.Serial('COM4', 9600) # Change 'COM4' to the name of the port that your device is connected to
 
+# this function came from: https://stackoverflow.com/a/74162322/14776907
+def tksleep(t):
+    'emulating time.sleep(seconds)'
+    ms = int(t*1000)
+    root = tkinter._get_default_root('sleep')
+    var = tkinter.IntVar(root)
+    root.after(ms, var.set, 1)
+    root.wait_variable(var)
+
+def close_doors():
+     # Add a label above the video with the text "Do this gesture to open the lock"
+    gesture_label = ctk.CTkLabel(root, text="Make sure to close the lock before you go", text_color="blue")
+    gesture_label.configure(font=("Comic Sans MS", 40))
+    gesture_label.place(relx=0.5, rely=0.1, anchor=ctk.CENTER)
+    # Play a local video file named open.mp4 within the Tkinter app
+    video_label = ctk.CTkLabel(root, text="")
+    video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
+    temp = "RIGHT" # CHANGE TO temp = "" when NOT testing
+    while "RIGHT" not in temp:
+        video = imageio.get_reader("open.mp4")
+        for image in video.iter_data():
+            # # Read data from the serial port
+            # if ser.in_waiting > 0:
+            #     temp = ser.readline().decode('utf-8').strip()
+            #     print(temp)
+            frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
+            video_label.configure(image=frame_image)
+            root.update()
+    # Clear the screen
+    gesture_label.place_forget()
+    video_label.place_forget()
+    # Add a label in the center of the screen with the text "Open the doors of knowledge and explore the books that lie within"
+    knowledge_label = ctk.CTkLabel(root, text="Thanks for visiting the Tech-Enabled Little Free Library Designed and Made by Raunak Singh")
+    knowledge_label.configure(font=("Comic Sans MS", 20))
+    knowledge_label.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
+    tksleep(10)
+    knowledge_label.place_forget()
+
+
 def on_submit2():
     motivation.place_forget()
     submit2.place_forget()
@@ -20,7 +59,7 @@ def on_submit2():
     # Play a local video file named open.mp4 within the Tkinter app
     video_label = ctk.CTkLabel(root, text="")
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
-    temp = ""
+    temp = "LEFT" # CHANGE TO temp = "" when NOT testing
     while "LEFT" not in temp:
         video = imageio.get_reader("open.mp4")
         for image in video.iter_data():
@@ -38,6 +77,9 @@ def on_submit2():
     knowledge_label = ctk.CTkLabel(root, text="Open the doors of knowledge and explore the books that lie within")
     knowledge_label.configure(font=("Comic Sans MS", 20))
     knowledge_label.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
+    tksleep(10)
+    knowledge_label.place_forget()
+    close_doors()
 
 def on_submit():
     if radio_var.get() == 0:
@@ -120,16 +162,20 @@ root.title("Reading Adventure")
 # Set the window size to 1000x600 pixels
 root.geometry("1000x600")
 
-# Open image2.jpeg and create a CTkImage object
-image = Image.open("image2.jpg")
-ctk_image = ctk.CTkImage(light_image=image, dark_image=image, size=(1000, 550))
-global background2_label
-background2_label = ctk.CTkLabel(root, text="", image=ctk_image)
-background2_label.place(x=0, y=0, relwidth=1, relheight=0.95)
+def start():
+    # Open image2.jpeg and create a CTkImage object
+    image = Image.open("image2.jpg")
+    ctk_image = ctk.CTkImage(light_image=image, dark_image=image, size=(1000, 550))
+    global background2_label
+    background2_label = ctk.CTkLabel(root, text="", image=ctk_image)
+    background2_label.place(x=0, y=0, relwidth=1, relheight=0.95)
 
-# Create a button with the welcome message as its text
-button = ctk.CTkButton(root, text="Welcome, let's start the reading adventure! (Click to begin)", command=on_welcome)
-button.configure(font=("Comic Sans MS", 35))
-button.place(relx=0.5, rely=0.95, anchor=ctk.CENTER)
+    # Create a button with the welcome message as its text
+    global button
+    button = ctk.CTkButton(root, text="Welcome, let's start the reading adventure! (Click to begin)", command=on_welcome)
+    button.configure(font=("Comic Sans MS", 35))
+    button.place(relx=0.5, rely=0.95, anchor=ctk.CENTER)
+
+start()
 
 root.mainloop()
