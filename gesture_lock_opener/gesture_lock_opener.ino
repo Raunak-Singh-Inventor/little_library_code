@@ -71,11 +71,11 @@ void handleGesture() {
         break;
       case DIR_LEFT:
         Serial.println("LEFT");
-        setLock2(180);
+        // setLock(180);
         break;
       case DIR_RIGHT:
         Serial.println("RIGHT");
-        setLock2(0);
+        // setLock(0);
         break;
       case DIR_NEAR:
         Serial.println("NEAR");

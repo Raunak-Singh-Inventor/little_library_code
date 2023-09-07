@@ -4,9 +4,20 @@ from PIL import Image, ImageTk
 import imageio
 import serial
 from random import randrange
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(03, GPIO.OUT)
+pwm=GPIO.PWM(03, 50)
+pwm.start(0)
 
-# # Set up a serial connection
-# ser = serial.Serial('COM4', 9600) # Change 'COM4' to the name of the port that your device is connected to
+
+def SetAngle(angle):
+	duty = angle / 18 + 2
+	GPIO.output(03, True)
+	pwm.ChangeDutyCycle(duty)
+
+# Set up a serial connection
+ser = serial.Serial('/dev/ttyUSB0', 9600) # Change 'COM4' to the name of the port that your device is connected to
 
 # this function came from: https://stackoverflow.com/a/74162322/14776907
 def tksleep(t):
@@ -25,14 +36,15 @@ def close_doors():
     # Play a local video file named open.mp4 within the Tkinter app
     video_label = ctk.CTkLabel(root, text="")
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
-    temp = "RIGHT" # CHANGE TO temp = "" when NOT testing
+    temp = "" # CHANGE TO temp = "" when NOT testing
     while "RIGHT" not in temp:
         video = imageio.get_reader("open.mp4")
         for image in video.iter_data():
-            # # Read data from the serial port
-            # if ser.in_waiting > 0:
-            #     temp = ser.readline().decode('utf-8').strip()
-            #     print(temp)
+            # Read data from the serial port
+            if ser.in_waiting > 0:
+                temp = ser.readline().decode('utf-8').strip()
+                setAngle(0)
+                print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
             root.update()
@@ -59,14 +71,15 @@ def on_submit2():
     # Play a local video file named open.mp4 within the Tkinter app
     video_label = ctk.CTkLabel(root, text="")
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
-    temp = "LEFT" # CHANGE TO temp = "" when NOT testing
+    temp = "" # CHANGE TO temp = "" when NOT testing
     while "LEFT" not in temp:
         video = imageio.get_reader("open.mp4")
         for image in video.iter_data():
-            # # Read data from the serial port
-            # if ser.in_waiting > 0:
-            #     temp = ser.readline().decode('utf-8').strip()
-            #     print(temp)
+            # Read data from the serial port
+            if ser.in_waiting > 0:
+                temp = ser.readline().decode('utf-8').strip()
+                setAngle(180)
+                print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
             root.update()
@@ -156,6 +169,7 @@ def on_welcome():
     submit = ctk.CTkButton(root, text="Submit", command=on_submit, fg_color="transparent", text_color="black", font=("Comic Sans MS", 30))
     submit.place(relx=0.5, rely=0.9, anchor=ctk.CENTER)
 
+global root
 root = ctk.CTk()
 root.title("Reading Adventure")
 
