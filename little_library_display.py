@@ -4,17 +4,13 @@ from PIL import Image, ImageTk
 import imageio
 import serial
 from random import randrange
+import time
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(03, GPIO.OUT)
-pwm=GPIO.PWM(03, 50)
+GPIO.setup(5, GPIO.OUT)
+pwm=GPIO.PWM(5, 50)
 pwm.start(0)
 
-
-def SetAngle(angle):
-	duty = angle / 18 + 2
-	GPIO.output(03, True)
-	pwm.ChangeDutyCycle(duty)
 
 # Set up a serial connection
 ser = serial.Serial('/dev/ttyUSB0', 9600) # Change 'COM4' to the name of the port that your device is connected to
@@ -43,7 +39,6 @@ def close_doors():
             # Read data from the serial port
             if ser.in_waiting > 0:
                 temp = ser.readline().decode('utf-8').strip()
-                setAngle(0)
                 print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
@@ -78,7 +73,9 @@ def on_submit2():
             # Read data from the serial port
             if ser.in_waiting > 0:
                 temp = ser.readline().decode('utf-8').strip()
-                setAngle(180)
+                pwm.ChangeDutyCycle(100)
+                time.sleep(1)
+                pwm.stop()
                 print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
