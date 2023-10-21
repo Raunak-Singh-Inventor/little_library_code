@@ -39,6 +39,11 @@ def close_doors():
             # Read data from the serial port
             if ser.in_waiting > 0:
                 temp = ser.readline().decode('utf-8').strip()
+                if "RIGHT" in temp:
+                    pwm.ChangeDutyCycle(0)
+                    time.sleep(1)
+                    pwm.stop()
+                    break
                 print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
