@@ -34,7 +34,7 @@ def close_doors():
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
     temp = "" # CHANGE TO temp = "" when NOT testing
     while "RIGHT" not in temp:
-        video = imageio.get_reader("open.mp4")
+        video = imageio.get_reader("/home/user/Desktop/little_library_code-master/open.mp4")
         for image in video.iter_data():
             # Read data from the serial port
             if ser.in_waiting > 0:
@@ -68,7 +68,7 @@ def on_submit2():
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
     temp = "" # CHANGE TO temp = "" when NOT testing
     while "LEFT" not in temp:
-        video = imageio.get_reader("open.mp4")
+        video = imageio.get_reader("/home/user/Desktop/little_library_code-master/open.mp4")
         for image in video.iter_data():
             # Read data from the serial port
             if ser.in_waiting > 0:
@@ -104,7 +104,7 @@ def on_submit():
     radiobutton_4.place_forget()
 
     # Display image1.jpg as background
-    background_image = Image.open("image3.jpg")
+    background_image = Image.open("/home/user/Desktop/little_library_code-master/image3.jpg")
     background_photo = ctk.CTkImage(light_image=background_image, dark_image=background_image, size=(1000, 600))
     global background_label3
     background_label3 = ctk.CTkLabel(root, text="", image=background_photo)
@@ -126,7 +126,7 @@ def on_welcome():
     background2_label.place_forget()
     
     # Display image1.jpg as background
-    background_image = Image.open("image1.jpg")
+    background_image = Image.open("/home/user/Desktop/little_library_code-master/image1.jpg")
     background_photo = ctk.CTkImage(light_image=background_image, dark_image=background_image, size=(1000, 600))
     global background_label
     background_label = ctk.CTkLabel(root, text="", image=background_photo,)
@@ -175,7 +175,7 @@ root.geometry("1000x600")
 
 def start():
     # Open image2.jpeg and create a CTkImage object
-    image = Image.open("image2.jpg")
+    image = Image.open("/home/user/Desktop/little_library_code-master/image2.jpg")
     ctk_image = ctk.CTkImage(light_image=image, dark_image=image, size=(1000, 550))
     global background2_label
     background2_label = ctk.CTkLabel(root, text="", image=ctk_image)
