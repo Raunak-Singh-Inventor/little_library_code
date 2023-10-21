@@ -5,11 +5,10 @@ import imageio
 import serial
 from random import randrange
 import time
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(5, GPIO.OUT)
-pwm=GPIO.PWM(5, 50)
-pwm.start(0)
+import pigpio
+from time import sleep
+
+pi = pigpio.pi()
 
 
 # Set up a serial connection
@@ -33,21 +32,21 @@ def close_doors():
     video_label = ctk.CTkLabel(root, text="")
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
     temp = "" # CHANGE TO temp = "" when NOT testing
-    while "RIGHT" not in temp:
+    flag=False
+    while not flag:
         video = imageio.get_reader("/home/user/Desktop/little_library_code-master/open.mp4")
         for image in video.iter_data():
-            # Read data from the serial port
-            if ser.in_waiting > 0:
-                temp = ser.readline().decode('utf-8').strip()
-                if "RIGHT" in temp:
-                    pwm.ChangeDutyCycle(0)
-                    time.sleep(1)
-                    pwm.stop()
-                    break
-                print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
             root.update()
+        # Read data from the serial port
+        while ser.in_waiting > 0:
+            temp = ser.readline().decode('utf-8').strip()
+            if("LEFT" in temp):
+                flag = True
+            print(temp)
+    pi.set_servo_pulsewidth(18, 2500)
+    time.sleep(1)
     # Clear the screen
     gesture_label.place_forget()
     video_label.place_forget()
@@ -72,19 +71,21 @@ def on_submit2():
     video_label = ctk.CTkLabel(root, text="")
     video_label.place(relx=0.5, rely=0.55, anchor=ctk.CENTER)
     temp = "" # CHANGE TO temp = "" when NOT testing
-    while "LEFT" not in temp:
+    flag=False
+    while not flag:
         video = imageio.get_reader("/home/user/Desktop/little_library_code-master/open.mp4")
         for image in video.iter_data():
-            # Read data from the serial port
-            if ser.in_waiting > 0:
-                temp = ser.readline().decode('utf-8').strip()
-                pwm.ChangeDutyCycle(100)
-                time.sleep(1)
-                pwm.stop()
-                print(temp)
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
             root.update()
+        # Read data from the serial port
+        while ser.in_waiting > 0:
+            temp = ser.readline().decode('utf-8').strip()
+            if("RIGHT" in temp):
+                flag = True
+            print(temp)
+    pi.set_servo_pulsewidth(18, 1000)
+    time.sleep(1)
     # Clear the screen
     gesture_label.place_forget()
     video_label.place_forget()
