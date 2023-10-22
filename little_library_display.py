@@ -35,7 +35,7 @@ def close_doors():
     temp = "" # CHANGE TO temp = "" when NOT testing
     flag=False
     while not flag:
-        video = imageio.get_reader("/home/user/Desktop/little_library_code-master/open.mp4")
+        video = imageio.get_reader("/home/user/Desktop/little_library_code-master/close.mp4")
         for image in video.iter_data():
             frame_image = ctk.CTkImage(Image.fromarray(image), size=(450, 450))
             video_label.configure(image=frame_image)
