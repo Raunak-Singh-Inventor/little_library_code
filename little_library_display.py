@@ -7,6 +7,7 @@ from random import randrange
 import time
 import pigpio
 from time import sleep
+import subprocess
 
 pi = pigpio.pi()
 
@@ -56,6 +57,7 @@ def close_doors():
     knowledge_label.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
     tksleep(10)
     knowledge_label.place_forget()
+    start()
 
 
 def on_submit2():
@@ -126,6 +128,7 @@ def on_submit():
     submit2.place(relx=0.5, rely=0.7, anchor=ctk.CENTER)
 
 def on_welcome():
+    subprocess.Popen(["sudo","shutdown","-c"])
 
     # Clear the screen
     button.place_forget()
@@ -180,6 +183,7 @@ root.title("Reading Adventure")
 root.geometry("1000x600")
 
 def start():
+    print("started")
     # Open image2.jpeg and create a CTkImage object
     image = Image.open("/home/user/Desktop/little_library_code-master/image2.jpg")
     ctk_image = ctk.CTkImage(light_image=image, dark_image=image, size=(1000, 550))
@@ -192,6 +196,7 @@ def start():
     button = ctk.CTkButton(root, text="Welcome, let's start the reading adventure! (Click to begin)", command=on_welcome)
     button.configure(font=("Comic Sans MS", 35))
     button.place(relx=0.5, rely=0.95, anchor=ctk.CENTER)
+    subprocess.Popen(["sudo","shutdown","-P","+60"])
 
 start()
 
