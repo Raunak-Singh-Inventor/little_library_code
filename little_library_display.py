@@ -128,8 +128,6 @@ def on_submit():
     submit2.place(relx=0.5, rely=0.7, anchor=ctk.CENTER)
 
 def on_welcome():
-    subprocess.Popen(["sudo","shutdown","-c"])
-
     # Clear the screen
     button.place_forget()
     background2_label.place_forget()
@@ -196,7 +194,6 @@ def start():
     button = ctk.CTkButton(root, text="Welcome, let's start the reading adventure! (Click to begin)", command=on_welcome)
     button.configure(font=("Comic Sans MS", 35))
     button.place(relx=0.5, rely=0.95, anchor=ctk.CENTER)
-    subprocess.Popen(["sudo","shutdown","-P","+60"])
 
 start()
 
