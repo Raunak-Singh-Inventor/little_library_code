@@ -52,8 +52,8 @@ def close_doors():
     gesture_label.place_forget()
     video_label.place_forget()
     # Add a label in the center of the screen with the text "Open the doors of knowledge and explore the books that lie within"
-    knowledge_label = ctk.CTkLabel(root, text="Thanks for visiting the Tech-Enabled Little Free Library Designed and Made by Raunak Singh")
-    knowledge_label.configure(font=("Comic Sans MS", 20))
+    knowledge_label = ctk.CTkLabel(root, text="Thanks for visiting the Tech-Enabled Little Free Library")
+    knowledge_label.configure(font=("Comic Sans MS", 40))
     knowledge_label.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
     tksleep(10)
     knowledge_label.place_forget()
@@ -93,7 +93,7 @@ def on_submit2():
     video_label.place_forget()
     # Add a label in the center of the screen with the text "Open the doors of knowledge and explore the books that lie within"
     knowledge_label = ctk.CTkLabel(root, text="Open the doors of knowledge and explore the books that lie within")
-    knowledge_label.configure(font=("Comic Sans MS", 20))
+    knowledge_label.configure(font=("Comic Sans MS", 40))
     knowledge_label.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
     tksleep(10)
     knowledge_label.place_forget()
@@ -117,6 +117,11 @@ def on_submit():
     global background_label3
     background_label3 = ctk.CTkLabel(root, text="", image=background_photo)
     background_label3.place(x=0, y=0, relwidth=1, relheight=1)
+    
+    global cpyriht
+    cpyriht = ctk.CTkLabel(root, text="Made and Designed by Raunak Singh the Great", text_color="black")
+    cpyriht.configure(font=("Comic Sans MS", 20))
+    cpyriht.place(relx=0.5, rely=0.04, anchor=ctk.CENTER)
 
     global motivation
     motivation = ctk.CTkLabel(root, text="Yay! You are CORRECT!!! 😀🎊🎉", text_color="blue")
@@ -138,6 +143,11 @@ def on_welcome():
     global background_label
     background_label = ctk.CTkLabel(root, text="", image=background_photo,)
     background_label.place(x=0, y=0, relwidth=1, relheight=1)
+    
+    global cpyriht
+    cpyriht = ctk.CTkLabel(root, text="Made and Designed by Raunak Singh the Great", text_color="black")
+    cpyriht.configure(font=("Comic Sans MS", 20))
+    cpyriht.place(relx=0.5, rely=0.04, anchor=ctk.CENTER)
     
     myMap = {"Which is your favorite color?": ["Red", "Green", "Blue", "Pink"],
              "Which one is your favorite pet?": ["Dog 🐶", "Cat 😺", "Bird 🐦", "Fish 🐟"],
@@ -178,7 +188,7 @@ root = ctk.CTk()
 root.title("Reading Adventure")
 
 # Set the window size to 1000x600 pixels
-root.geometry("1000x600")
+root.geometry("1025x600")
 
 def start():
     print("started")
@@ -189,6 +199,12 @@ def start():
     background2_label = ctk.CTkLabel(root, text="", image=ctk_image)
     background2_label.place(x=0, y=0, relwidth=1, relheight=0.95)
 
+# Display a question
+    global cpyriht
+    cpyriht = ctk.CTkLabel(root, text="Made and Designed by Raunak Singh the Great", text_color="black")
+    cpyriht.configure(font=("Comic Sans MS", 20))
+    cpyriht.place(relx=0.5, rely=0.04, anchor=ctk.CENTER)
+
     # Create a button with the welcome message as its text
     global button
     button = ctk.CTkButton(root, text="Welcome, let's start the reading adventure! (Click to begin)", command=on_welcome)
@@ -198,3 +214,4 @@ def start():
 start()
 
 root.mainloop()
+
